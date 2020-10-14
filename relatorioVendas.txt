@@ -1,0 +1,5 @@
+Codigo de barra: 6 | Quantidade: 31 | Valor Total: 1674,00 |
+Codigo de barra: 4 | Quantidade: 2 | Valor Total: 51,96 |
+
+
+Total do dia: R$1725.96
