@@ -1,5 +1,7 @@
 # Projeto (zup-estrelas-loja-seu-jose)
-
+	Sistema de gerenciamento de estoque e vendas de pecas
+	
+	
 # [1] Menu Gestao de Pecas 
  - **[1.1] - Cadastrar uma nova peca:** Nesta funcionalidade criamos um objeto peca e fazemos a interacao deste objeto com um metodo na pecaDao (cadastrarPecaBD) que e responsavel em inserir no Banco de Dados 
  
