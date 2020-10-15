@@ -3,16 +3,16 @@ package br.com.zup.estrelas.loja;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 import br.com.zup.estrelas.loja.dao.PecaDao;
 import br.com.zup.estrelas.loja.pojo.PecaPojo;
 
 public class ProgramaPrincipal {
 
-	private static final String MENU_PRINCIPAL = ("======= BEM VINDO AO SISTEMA DE PEÇAS =======\n"
+	private static final String MENU_PRINCIPAL = ("======= BEM VINDO AO SISTEMA DE PEÇAS - LOJA DO SEU JOSE =======\n"
 			+ "[1] - Gestão de peças\n" + "[2] - Gestão de vendas\n" + "[0] - Sair\n");
 
 	private static final String MENU_GESTAO_PECA = ("\n[1] - Cadastrar uma nova peça\n"
@@ -103,13 +103,19 @@ public class ProgramaPrincipal {
 	}
 
 	public static void imprimirRelatorioVendas(List<PecaPojo> pecasPojo) throws IOException {
+		Calendar c = Calendar.getInstance();
+		
 		double precoTotalVenda = 0;
-		FileWriter writer = new FileWriter("relatorioVendas.txt");
+		
+		String nomeArquivo = "relatorioVendas_Dia_" + c.get(Calendar.DAY_OF_MONTH) + ".txt";
+			
+		FileWriter writer = new FileWriter(nomeArquivo);
 		
 		for (PecaPojo pecaPojo : pecasPojo) {
 			System.out.printf(
 					"Codigo de barra: %d | Quantidade: %d | Valor Total: %.2f |\n",
 					pecaPojo.getCodigoBarra(), pecaPojo.getQuantidadeEstoque(), pecaPojo.getPrecoVenda());
+			
 			precoTotalVenda += pecaPojo.getPrecoVenda();		
 			
 			writer.append(String.format("Codigo de barra: %d | Quantidade: %d | Valor Total: %.2f |\n",
@@ -120,7 +126,8 @@ public class ProgramaPrincipal {
 		
 		writer.append(String.format("\n\nTotal do dia: R$" + precoTotalVenda));
 		
-		System.out.println("relatorioVendas.txt criado com sucesso!");
+		System.out.printf("\n%s criado com sucesso!\n", nomeArquivo);
+		
 		writer.close();
 	}
 	
