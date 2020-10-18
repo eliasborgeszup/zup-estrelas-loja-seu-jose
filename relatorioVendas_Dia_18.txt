@@ -1,0 +1,5 @@
+Codigo de barra: 15 | Quantidade: 1 | Valor unitario: 2500,00 | Valor Total: 2500,00 |
+Codigo de barra: 3 | Quantidade: 1 | Valor unitario: 51,38 | Valor Total: 51,38 |
+
+
+Total do dia: R$2551.38
