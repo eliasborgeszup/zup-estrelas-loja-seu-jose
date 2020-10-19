@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import br.com.zup.estrelas.loja.dao.PecaDao;
 import br.com.zup.estrelas.loja.pojo.PecaPojo;
+import br.com.zup.estrelas.loja.pojo.VendaPojo;
 
 public class ProgramaPrincipal {
 
@@ -102,7 +103,7 @@ public class ProgramaPrincipal {
 		}
 	}
 
-	public static void imprimirRelatorioVendas(List<PecaPojo> pecasPojo) throws IOException {
+	public static void imprimirRelatorioVendas(List<VendaPojo> vendasPojo) throws IOException {
 		Calendar c = Calendar.getInstance();
 		
 		double precoTotalVenda = 0;
@@ -111,15 +112,15 @@ public class ProgramaPrincipal {
 			
 		FileWriter writer = new FileWriter(nomeArquivo);
 		
-		for (PecaPojo pecaPojo : pecasPojo) {
+		for (VendaPojo vendaPojo : vendasPojo) {
 			System.out.printf(
-					"Codigo de barra: %d | Quantidade: %d | Valor Total: %.2f |\n",
-					pecaPojo.getCodigoBarra(), pecaPojo.getQuantidadeEstoque(), pecaPojo.getPrecoVenda());
+					"Codigo de barra: %d | Quantidade: %d | Valor unitario: %.2f | Valor Total: %.2f |\n",
+					vendaPojo.getCodigoBarra(), vendaPojo.getQuantidade(), vendaPojo.getValorUnitario(), vendaPojo.getValorTotal());
 			
-			precoTotalVenda += pecaPojo.getPrecoVenda();		
+			precoTotalVenda += vendaPojo.getValorTotal();		
 			
-			writer.append(String.format("Codigo de barra: %d | Quantidade: %d | Valor Total: %.2f |\n",
-					pecaPojo.getCodigoBarra(), pecaPojo.getQuantidadeEstoque(), pecaPojo.getPrecoVenda()));
+			writer.append(String.format("Codigo de barra: %d | Quantidade: %d | Valor unitario: %.2f | Valor Total: %.2f |\n",
+					vendaPojo.getCodigoBarra(), vendaPojo.getQuantidade(), vendaPojo.getValorUnitario(), vendaPojo.getValorTotal()));
 		}
 		
 		System.out.println("\n\nTotal do dia: R$" + precoTotalVenda);	
@@ -179,7 +180,7 @@ public class ProgramaPrincipal {
 		}
 	}
 
-	public static List<PecaPojo> realizarVenda(Scanner teclado, List<PecaPojo> listaVendas) {
+	public static List<VendaPojo> realizarVenda(Scanner teclado, List<VendaPojo> listaVendas) {
 		PecaDao pecaDao = new PecaDao();
 		PecaPojo pecaPojo = new PecaPojo();
 
@@ -204,11 +205,12 @@ public class ProgramaPrincipal {
 		}
 
 		pecaDao.modificarQuantidadePeca(pecaPojo, quantidade);
-
-		pecaPojo.setQuantidadeEstoque(quantidade);
 		pecaPojo.setPrecoVenda(quantidade * pecaPojo.getPrecoVenda());
+		
+		VendaPojo vendaPojo = new VendaPojo(pecaPojo.getCodigoBarra(), quantidade, quantidade * pecaPojo.getPrecoVenda(), pecaPojo.getPrecoVenda());
+		
 
-		listaVendas.add(pecaPojo);
+		listaVendas.add(vendaPojo);
 		
 		System.out.println("Venda realizada com sucesso");
 		return listaVendas;
@@ -216,7 +218,7 @@ public class ProgramaPrincipal {
 
 	public static void main(String[] args) throws IOException {
 		Scanner teclado = new Scanner(System.in);
-		List<PecaPojo> listaVendas = new ArrayList<>();
+		List<VendaPojo> listaVendas = new ArrayList<>();
 		
 		int opcaoMenuPrincipal = 0;
 		int opcaoMenuGestaoPeca = 0;
