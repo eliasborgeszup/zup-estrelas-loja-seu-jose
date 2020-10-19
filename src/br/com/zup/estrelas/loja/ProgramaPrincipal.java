@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import br.com.zup.estrelas.loja.dao.PecaDao;
-import br.com.zup.estrelas.loja.pojo.PecaPojo;
+import br.com.zup.estrelas.loja.pojo.Peca;
 import br.com.zup.estrelas.loja.pojo.VendaPojo;
 
 public class ProgramaPrincipal {
@@ -59,12 +59,12 @@ public class ProgramaPrincipal {
 		System.out.print("Digite a categoria: ");
 		String categoria = teclado.nextLine();
 
-		PecaPojo pecaPojo = new PecaPojo(codigoBarra, nome, modeloCarro, fabricante, precoCusto, precoVenda,
+		Peca peca = new Peca(codigoBarra, nome, modeloCarro, fabricante, precoCusto, precoVenda,
 				quantidadeEstoque, categoria);
 
 		PecaDao pecaDao = new PecaDao();
 
-		if (pecaDao.cadastrarPecaBD(pecaPojo)) {
+		if (pecaDao.cadastrarPecaBD(peca)) {
 			System.out.println("\nPeça cadastrada com sucesso!\n");
 		}
 	}
@@ -74,11 +74,11 @@ public class ProgramaPrincipal {
 		int codigoBarra = teclado.nextInt();
 
 		PecaDao pecaDao = new PecaDao();
-		PecaPojo pecaPojo = pecaDao.buscarPecaPorCodigoBarraBD(codigoBarra);
+		Peca pecaPojo = pecaDao.buscarPecaPorCodigoBarraBD(codigoBarra);
 
 		System.out.printf(
-				"\nNome: %s Codigo de barra: %d Modelo: %s Fabricante: %s "
-						+ "Preço Custo: R$%.2f Preço Venda: R$%.2f Quantidade: %d Categoria: %s",
+				"\nNome: %s | Codigo de barra: %d | Modelo: %s | Fabricante: %s | "
+						+ "Preço Custo: R$%.2f | Preço Venda: R$%.2f | Quantidade: %d | Categoria: %s |\n",
 				pecaPojo.getNome(), pecaPojo.getCodigoBarra(), pecaPojo.getModeloCarro(), pecaPojo.getFabricante(),
 				pecaPojo.getPrecoCusto(), pecaPojo.getPrecoVenda(), pecaPojo.getQuantidadeEstoque(),
 				pecaPojo.getCategoria());
@@ -86,13 +86,13 @@ public class ProgramaPrincipal {
 
 	public static void buscarPecaEstoque(Scanner teclado) {
 		PecaDao pecaDao = new PecaDao();
-		List<PecaPojo> pecasPojo = pecaDao.buscarPecasBD();
+		List<Peca> pecasPojo = pecaDao.buscarPecasBD();
 
 		imprimirPecas(pecasPojo);
 	}
 
-	public static void imprimirPecas(List<PecaPojo> pecasPojo) {
-		for (PecaPojo pecaPojo : pecasPojo) {
+	public static void imprimirPecas(List<Peca> pecasPojo) {
+		for (Peca pecaPojo : pecasPojo) {
 			System.out.printf(
 					"\nNome: %s | Codigo de barra: %d | Modelo: %s | Fabricante: %s | "
 							+ "Preço Custo: R$%.2f | Preço Venda: R$%.2f | Quantidade: %d | Categoria: %s |\n",
@@ -138,7 +138,7 @@ public class ProgramaPrincipal {
 		String nome = teclado.nextLine();
 
 		PecaDao pecaDao = new PecaDao();
-		List<PecaPojo> pecasPojo = pecaDao.buscarPecasPorNomeBD(nome);
+		List<Peca> pecasPojo = pecaDao.buscarPecasPorNomeBD(nome);
 
 		imprimirPecas(pecasPojo);
 	}
@@ -150,7 +150,7 @@ public class ProgramaPrincipal {
 		String modelo = teclado.nextLine();
 
 		PecaDao pecaDao = new PecaDao();
-		List<PecaPojo> pecasPojo = pecaDao.buscarPecasPorModeloBD(modelo);
+		List<Peca> pecasPojo = pecaDao.buscarPecasPorModeloBD(modelo);
 
 		imprimirPecas(pecasPojo);
 	}
@@ -164,7 +164,7 @@ public class ProgramaPrincipal {
 		String categoria = teclado.nextLine();
 
 		PecaDao pecaDao = new PecaDao();
-		List<PecaPojo> pecasPojo = pecaDao.buscarPecasPorCategoriaBD(categoria);
+		List<Peca> pecasPojo = pecaDao.buscarPecasPorCategoriaBD(categoria);
 
 		imprimirPecas(pecasPojo);
 	}
@@ -182,7 +182,7 @@ public class ProgramaPrincipal {
 
 	public static List<VendaPojo> realizarVenda(Scanner teclado, List<VendaPojo> listaVendas) {
 		PecaDao pecaDao = new PecaDao();
-		PecaPojo pecaPojo = new PecaPojo();
+		Peca pecaPojo = new Peca();
 
 		System.out.print("Digite o codigo de barra: ");
 		int codigoBarra = teclado.nextInt();
@@ -203,8 +203,10 @@ public class ProgramaPrincipal {
 			System.out.print("Ops.. Quantidade superior a quantidade em estoque, digite novamente: ");
 			quantidade = teclado.nextInt();
 		}
-
-		pecaDao.modificarQuantidadePeca(pecaPojo, quantidade);
+		
+		pecaPojo.setQuantidadeEstoque(pecaPojo.getQuantidadeEstoque() - quantidade);
+		
+		pecaDao.modificarQuantidadePeca(pecaPojo);
 		pecaPojo.setPrecoVenda(quantidade * pecaPojo.getPrecoVenda());
 		
 		VendaPojo vendaPojo = new VendaPojo(pecaPojo.getCodigoBarra(), quantidade, quantidade * pecaPojo.getPrecoVenda(), pecaPojo.getPrecoVenda());

@@ -1,20 +1,38 @@
 package br.com.zup.estrelas.loja.pojo;
 
-public class PecaPojo {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table (name = "peca")
+public class Peca {
+	@Id
+	@Column(name = "codigo_de_barra")
 	private int codigoBarra;
 	private String nome;
+	
+	@Column(name = "modelo_carro")
 	private String modeloCarro;
 	private String fabricante;
+	
+	@Column(name = "preco_custo")
 	private double precoCusto;
+	
+	@Column(name = "preco_venda")
 	private double precoVenda;
+	
+	@Column(name = "quantidade_estoque")
 	private int quantidadeEstoque;
+	
 	private String categoria;
 	
-	public PecaPojo() {
+	public Peca() {
 		
 	}
 	
-	public PecaPojo(int codigoBarra, String nome, String modeloCarro, String fabricante, double precoCusto,
+	public Peca(int codigoBarra, String nome, String modeloCarro, String fabricante, double precoCusto,
 			double precoVenda, int quantidadeEstoque, String categoria) {
 		this.codigoBarra = codigoBarra;
 		this.nome = nome;
