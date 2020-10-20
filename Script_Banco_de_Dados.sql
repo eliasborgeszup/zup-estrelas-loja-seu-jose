@@ -27,3 +27,15 @@ VALUES(0005, "Coxim", "Saveiro", "VW", 62.81, 75.26, 5, 'motor');
 
 INSERT INTO banco_loja_pecas.peca
 VALUES(0006, "Pastilha", "Strada", "Fiat", 37.53, 54.00, 20, 'roda');
+
+INSERT INTO banco_loja_pecas.peca
+VALUES(0004, 'motor', "Toyota", "Hilux", "Filtro de Combustivel", 20.81, 25.98, 2500);
+
+INSERT INTO banco_loja_pecas.peca
+VALUES(0003, 'roda', "Fiat", "Fiat Uno", "Cubo de roda", 48.81, 75.00, 7500);
+
+INSERT INTO banco_loja_pecas.peca
+VALUES(0005, 'roda', "Fiat", "Strada", "Pastilha", 37.53, 65.00, 1500);
+
+INSERT INTO banco_loja_pecas.peca
+VALUES(0006, 'motor', "VW", "Gol", "Filtro de Ar G1", 10.02, 17.00, 500);

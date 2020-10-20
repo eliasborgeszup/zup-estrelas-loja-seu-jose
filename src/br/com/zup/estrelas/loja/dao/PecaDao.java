@@ -30,7 +30,7 @@ public class PecaDao {
 
 		Peca peca = manager.find(Peca.class, codigoBarra);
 
-		if (peca.getCodigoBarra() != 0) {
+		if (peca != null) {
 			return peca;
 		} else {
 			System.out.println("Codigo de barra inexistente!");

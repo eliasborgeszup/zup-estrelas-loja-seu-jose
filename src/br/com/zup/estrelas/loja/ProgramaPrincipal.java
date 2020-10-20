@@ -74,14 +74,16 @@ public class ProgramaPrincipal {
 		int codigoBarra = teclado.nextInt();
 
 		PecaDao pecaDao = new PecaDao();
-		Peca pecaPojo = pecaDao.buscarPecaPorCodigoBarraBD(codigoBarra);
+		Peca peca = pecaDao.buscarPecaPorCodigoBarraBD(codigoBarra);
 
+		if(peca != null) {
 		System.out.printf(
 				"\nNome: %s | Codigo de barra: %d | Modelo: %s | Fabricante: %s | "
 						+ "Preço Custo: R$%.2f | Preço Venda: R$%.2f | Quantidade: %d | Categoria: %s |\n",
-				pecaPojo.getNome(), pecaPojo.getCodigoBarra(), pecaPojo.getModeloCarro(), pecaPojo.getFabricante(),
-				pecaPojo.getPrecoCusto(), pecaPojo.getPrecoVenda(), pecaPojo.getQuantidadeEstoque(),
-				pecaPojo.getCategoria());
+						peca.getNome(), peca.getCodigoBarra(), peca.getModeloCarro(), peca.getFabricante(),
+						peca.getPrecoCusto(), peca.getPrecoVenda(), peca.getQuantidadeEstoque(),
+						peca.getCategoria());
+		}
 	}
 
 	public static void buscarPecaEstoque(Scanner teclado) {
